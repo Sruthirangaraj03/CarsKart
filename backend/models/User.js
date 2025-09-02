@@ -2,25 +2,22 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['user', 'host', 'admin'], default: 'user' },
-  
-  // ✅ NEW: Subscription fields
-  currentSubscriptionId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Subscription' 
+  firstName: String,
+  lastName: String,
+  username: String,
+  email: String,
+  password: String,
+  phone: String,
+  role: {
+    type: String,
+    enum: ['buyer', 'seller', 'user'],
+    default: 'user'
   },
-  subscriptionStatus: { 
-    type: String, 
-    enum: ['active', 'expired', 'none'], 
-    default: 'none' 
-  },
-  
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  address: String
 });
+
+
+
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {

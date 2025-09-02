@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -15,11 +15,69 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkExistingAuth = () => {
+      try {
+        const token = localStorage.getItem('token');
+        const loginTime = localStorage.getItem('loginTime');
+        
+        if (token && loginTime) {
+          const elapsed = Date.now() - parseInt(loginTime);
+          const threeHours = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+          
+          if (elapsed < threeHours) {
+            // User is still logged in, redirect to home
+            navigate('/');
+            return;
+          } else {
+            // Session expired, clear storage
+            clearAuthData();
+          }
+        }
+      } catch (error) {
+        console.error('Error checking existing auth:', error);
+        clearAuthData();
+      }
+    };
+
+    checkExistingAuth();
+  }, [navigate]);
+
+  // Auto-logout timer setup
+  const setupAutoLogout = () => {
+    const threeHours = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+    
+    setTimeout(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        clearAuthData();
+        alert('🔐 Your session has expired for security reasons. Please login again.');
+        window.location.href = '/login'; // Force redirect
+      }
+    }, threeHours);
+    
+    console.log('⏰ Auto-logout timer set for 3 hours');
+  };
+
+  // Clear authentication data
+  const clearAuthData = () => {
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('loginTime');
+      console.log('🧹 Auth data cleared');
+    } catch (error) {
+      console.error('Error clearing auth data:', error);
+    }
+  };
+
   // Safe localStorage operations
   const saveToken = (token) => {
     try {
       if (window.localStorage) {
         window.localStorage.setItem('token', token);
+        window.localStorage.setItem('loginTime', Date.now().toString());
         console.log('✅ Token saved successfully');
         return true;
       }
@@ -33,7 +91,12 @@ const LoginPage = () => {
   const saveUserData = (userData) => {
     try {
       if (window.localStorage) {
-        window.localStorage.setItem('user', JSON.stringify(userData));
+        // Add login timestamp to user data
+        const userWithTimestamp = {
+          ...userData,
+          loginTime: Date.now()
+        };
+        window.localStorage.setItem('user', JSON.stringify(userWithTimestamp));
         console.log('✅ User data saved successfully');
         return true;
       }
@@ -94,11 +157,20 @@ const LoginPage = () => {
           alert("⚠️ Warning: Unable to save login session. You may need to login again.");
         }
         
+        // Setup auto-logout timer
+        setupAutoLogout();
+        
         // Success message
         alert(`🎉 Welcome back, ${user.name || user.email}!`);
         
-        // Navigate to home page
-        navigate("/");
+        // Navigate based on user role and subscription
+        if (user.role === 'admin') {
+          navigate("/admin");
+        } else if (user.subscription) {
+          navigate("/dashboard"); // User has subscription, go to dashboard
+        } else {
+          navigate("/pricing"); // No subscription, show pricing
+        }
         
       } else {
         // SIGNUP REQUEST
@@ -126,11 +198,14 @@ const LoginPage = () => {
           alert("⚠️ Warning: Unable to save login session. You may need to login again.");
         }
         
+        // Setup auto-logout timer
+        setupAutoLogout();
+        
         // Success message
         alert(`🎉 Account created successfully! Welcome, ${user.name || user.email}!`);
         
-        // Navigate to home page
-        navigate("/");
+        // New users always go to pricing first
+        navigate("/pricing");
       }
       
     } catch (err) {
@@ -301,6 +376,11 @@ const LoginPage = () => {
           alt="Car Illustration"
           className="w-full h-full object-cover"
         />
+      </div>
+
+      {/* Session Info Banner */}
+      <div className="fixed bottom-4 right-4 bg-orange-100 border border-orange-300 rounded-lg p-3 text-sm text-orange-800 max-w-xs">
+        🔒 Your session will automatically expire after 3 hours for security.
       </div>
 
       {/* Loading Overlay */}

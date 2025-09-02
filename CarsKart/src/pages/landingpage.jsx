@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import TopSearchBar from "../components/TopSearchBar";
+
 
 const LandingPage = () => {
   return (
@@ -13,8 +13,8 @@ const LandingPage = () => {
       {/* Push content down below fixed NavBar and SearchBar */}
       <div className="pt-32 px-4 sm:px-6 lg:px-8">
         {/* Search Bar just below NavBar */}
-        <div className="mb-10">
-          <TopSearchBar />
+        <div className="mb-10 bottom-5">
+         
         </div>
 
         {/* Hero Section */}
