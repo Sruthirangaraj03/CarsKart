@@ -7,8 +7,7 @@
   "dev": "vite",
   "build": "npx vite build",
   "lint": "eslint .",
-  "preview": "vite preview",
-   "postinstall": "npx vite --version"
+  "preview": "vite preview"
 }
 ,
   "dependencies": {
