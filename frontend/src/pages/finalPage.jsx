@@ -24,7 +24,7 @@ const BookingSuccessPage = () => {
         }
 
         // Fetch booking details from your backend
-        const response = await fetch(`http://localhost:8000/api/bookings/${bookingId}`, {
+        const response = await fetch(`https://cars-kart.onrender.com/api/bookings/${bookingId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -57,7 +57,7 @@ const BookingSuccessPage = () => {
     const fetchOwnerDetails = async (productId, token) => {
       try {
         // Fetch product details to get owner info
-        const productResponse = await fetch(`http://localhost:8000/api/products/${productId}`, {
+        const productResponse = await fetch(`https://cars-kart.onrender.com/api/products/${productId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

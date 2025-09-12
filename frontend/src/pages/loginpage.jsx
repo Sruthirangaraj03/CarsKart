@@ -135,7 +135,7 @@ const LoginPage = () => {
       
       if (isLogin) {
         // LOGIN REQUEST
-        res = await axios.post("http://localhost:8000/api/auth/login", {
+        res = await axios.post("https://cars-kart.onrender.com/api/auth/login", {
           email,
           password,
         });
@@ -174,7 +174,7 @@ const LoginPage = () => {
         
       } else {
         // SIGNUP REQUEST
-        res = await axios.post("http://localhost:8000/api/auth/signup", {
+        res = await axios.post("https://cars-kart.onrender.com/api/auth/signup", {
           name,
           email,
           phone,

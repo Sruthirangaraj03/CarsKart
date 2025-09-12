@@ -35,7 +35,7 @@ const ProductManagementPage = () => {
   const [hostId, setHostId] = useState(null);
   const [hostData, setHostData] = useState(null);
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = 'https://cars-kart.onrender.com/api';
 
   const categories = ['Sedan', 'SUV', 'Hatchback', 'Luxury', 'Sports', 'Electric', 'Convertible', 'Truck', 'Van', 'Bike', 'Scooter'];
   const statuses = ['active', 'inactive', 'deleted', 'maintenance', 'pending_approval'];
@@ -48,7 +48,7 @@ const ProductManagementPage = () => {
       return imagePath;
     }
     
-    const BACKEND_URL = 'http://localhost:8000';
+    const BACKEND_URL = 'https://cars-kart.onrender.com';
     const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
     
     return `${BACKEND_URL}${cleanPath}`;

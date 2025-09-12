@@ -29,7 +29,7 @@ const RentalDealsPage = () => {
       
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
       
-      const response = await fetch('http://localhost:8000/api/products', {
+      const response = await fetch('https://cars-kart.onrender.com/api/products', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const RentalDealsPage = () => {
       
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
       
-      const response = await fetch(`http://localhost:8000/api/products/search?q=${encodeURIComponent(searchTerm)}`, {
+      const response = await fetch(`https://cars-kart.onrender.com/api/products/search?q=${encodeURIComponent(searchTerm)}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -134,10 +134,10 @@ const RentalDealsPage = () => {
 
   const getImageUrl = (product) => {
     if (product?.images?.primary) {
-      return `http://localhost:8000${product.images.primary}`;
+      return `https://cars-kart.onrender.com${product.images.primary}`;
     }
     if (product?.images?.gallery?.[0]) {
-      return `http://localhost:8000${product.images.gallery[0]}`;
+      return `https://cars-kart.onrender.com${product.images.gallery[0]}`;
     }
     return 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=500&h=300&fit=crop';
   };
@@ -175,7 +175,7 @@ const RentalDealsPage = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8000/api/favorites/add", {
+      const response = await fetch("https://cars-kart.onrender.com/api/favorites/add", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

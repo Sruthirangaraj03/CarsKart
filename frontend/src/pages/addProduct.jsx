@@ -24,7 +24,7 @@ const getImageUrl = (imagePath) => {
     return imagePath;
   }
   
-  const API_BASE = 'http://localhost:8000';
+  const API_BASE = 'https://cars-kart.onrender.com';
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   
   return `${API_BASE}${cleanPath}`;
@@ -42,7 +42,7 @@ const AddProductPage = () => {
   const [hostId, setHostId] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = 'https://cars-kart.onrender.com/api';
   const productId = searchParams.get('edit');
   const isEditMode = !!productId; // Boolean flag for edit mode
 
