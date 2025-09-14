@@ -24,7 +24,7 @@ const getImageUrl = (imagePath) => {
     return imagePath;
   }
   
-  const API_BASE = 'https://cars-kart.onrender.com';
+  const API_BASE = 'https://cars-kart.onrender.com/api';
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
   
   return `${API_BASE}${cleanPath}`;
