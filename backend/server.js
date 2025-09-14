@@ -17,7 +17,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['https://cars-kart-fro.onrender.com/'],
   credentials: true
 }));
 app.use(express.json());
