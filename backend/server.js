@@ -17,7 +17,9 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['*'],
+
+  origin: "https://carskart-frontendd.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
 app.use(express.json());
