@@ -11,7 +11,7 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'https://cars-kart.onrender.com',
+        target: 'https://carskart-backend.onrender.com',
         changeOrigin: true,
         secure: false,
         configure: (proxy, _options) => {

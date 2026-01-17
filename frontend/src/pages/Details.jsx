@@ -47,7 +47,7 @@ const ProductDetails = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`https://cars-kart.onrender.com/api/products/${productId}`, {
+      const response = await fetch(`https://carskart-backend.onrender.com/api/products/${productId}`, {
         method: 'GET',
         headers: headers
       });
@@ -85,8 +85,8 @@ const ProductDetails = () => {
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
-      
-      const response = await fetch(`https://cars-kart.onrender.com/api/reviews/product/${productId}`, {
+
+      const response = await fetch(`https://carskart-backend.onrender.com/api/reviews/product/${productId}`, {
         method: 'GET',
         headers: headers
       });
@@ -130,7 +130,7 @@ const ProductDetails = () => {
       let url;
       
       if (editingId) {
-        url = `https://cars-kart.onrender.com/api/reviews/${editingId}`;
+        url = `https://carskart-backend.onrender.com/api/reviews/${editingId}`;
         response = await fetch(url, {
           method: 'PUT',
           headers: {
@@ -143,7 +143,7 @@ const ProductDetails = () => {
           })
         });
       } else {
-        url = `https://cars-kart.onrender.com/api/reviews/${productId}`;
+        url = `https://carskart-backend.onrender.com/api/reviews/${productId}`;
         response = await fetch(url, {
           method: 'POST',
           headers: {
@@ -205,7 +205,7 @@ const ProductDetails = () => {
     }
 
     try {
-      const response = await fetch(`https://cars-kart.onrender.com/api/reviews/${reviewId}`, {
+      const response = await fetch(`https://carskart-backend.onrender.com/api/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -236,7 +236,7 @@ const ProductDetails = () => {
         return;
       }
 
-      const response = await fetch("https://cars-kart.onrender.com/api/favorites/add", {
+      const response = await fetch("https://carskart-backend.onrender.com/api/favorites/add", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -299,10 +299,10 @@ const ProductDetails = () => {
     const images = [];
     if (product?.images?.gallery?.length > 0) {
       product.images.gallery.forEach(img => {
-        images.push(`https://cars-kart.onrender.com${img}`);
+        images.push(`https://carskart-backend.onrender.com${img}`);
       });
     } else if (product?.images?.primary) {
-      images.push(`https://cars-kart.onrender.com${product.images.primary}`);
+      images.push(`https://carskart-backend.onrender.com${product.images.primary}`);
     } else {
       images.push('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=600&fit=crop');
     }

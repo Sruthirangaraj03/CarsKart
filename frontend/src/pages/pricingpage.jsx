@@ -167,7 +167,7 @@ const PricingPage = () => {
     try {
       // Use the correct primary endpoint
       console.log('🌐 Checking primary host status endpoint...');
-      const response = await fetch('https://cars-kart.onrender.com/api/host/check-status', {
+      const response = await fetch('https://carskart-backend.onrender.com/api/host/check-status', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -215,7 +215,7 @@ const PricingPage = () => {
     // Try correct alternative endpoint (getHostProfile)
     try {
       console.log('🌐 Trying alternative host profile endpoint...');
-      const altResponse = await fetch('https://cars-kart.onrender.com/api/host/profile', {
+      const altResponse = await fetch('https://carskart-backend.onrender.com/api/host/profile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -283,7 +283,7 @@ const PricingPage = () => {
 
         // Fetch user data for payment prefill
         try {
-          const userRes = await fetch('https://cars-kart.onrender.com/api/auth/me', {
+          const userRes = await fetch('https://carskart-backend.onrender.com/api/auth/me', {
             headers: { 
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
@@ -386,7 +386,7 @@ const PricingPage = () => {
 
     try {
       // Step 1: Create payment order
-      const res = await fetch('https://cars-kart.onrender.com/api/payment/create-order', {
+      const res = await fetch('https://carskart-backend.onrender.com/api/payment/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -465,7 +465,7 @@ const PricingPage = () => {
     };
 
     try {
-      const verifyRes = await fetch('https://cars-kart.onrender.com/api/payment/verify', {
+      const verifyRes = await fetch('https://carskart-backend.onrender.com/api/payment/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

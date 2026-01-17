@@ -43,7 +43,7 @@ const ProductDetailsPage = () => {
       
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
       
-      const response = await fetch(`https://cars-kart.onrender.com/api/products/${id}`, {
+      const response = await fetch(`https://carskart-backend.onrender.com/api/products/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -99,10 +99,10 @@ const ProductDetailsPage = () => {
   // Helper function to get image URL
   const getImageUrl = (product, index = 0) => {
     if (product?.images?.gallery?.[index]) {
-      return `https://cars-kart.onrender.com${product.images.gallery[index]}`;
+      return `https://carskart-backend.onrender.com${product.images.gallery[index]}`;
     }
     if (product?.images?.primary) {
-      return `https://cars-kart.onrender.com${product.images.primary}`;
+      return `https://carskart-backend.onrender.com${product.images.primary}`;
     }
     return 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=600&fit=crop';
   };
@@ -111,10 +111,10 @@ const ProductDetailsPage = () => {
     const images = [];
     if (product?.images?.gallery?.length > 0) {
       product.images.gallery.forEach(img => {
-        images.push(`https://cars-kart.onrender.com${img}`);
+        images.push(`https://carskart-backend.onrender.com${img}`);
       });
     } else if (product?.images?.primary) {
-      images.push(`https://cars-kart.onrender.com${product.images.primary}`);
+      images.push(`https://carskart-backend.onrender.com${product.images.primary}`);
     } else {
       images.push('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=600&fit=crop');
     }

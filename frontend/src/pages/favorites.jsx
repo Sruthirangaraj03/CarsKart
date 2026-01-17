@@ -24,7 +24,7 @@ const FavoritesPage = () => {
         return;
       }
 
-      const response = await fetch('https://cars-kart.onrender.com/api/favorites', {
+      const response = await fetch('https://carskart-backend.onrender.com/api/favorites', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const FavoritesPage = () => {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
       
-      const response = await fetch('https://cars-kart.onrender.com/api/favorites/remove', {
+      const response = await fetch('https://carskart-backend.onrender.com/api/favorites/remove', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -121,10 +121,10 @@ const FavoritesPage = () => {
 
   const getImageUrl = (product) => {
     if (product?.images?.primary) {
-      return `https://cars-kart.onrender.com${product.images.primary}`;
+      return `https://carskart-backend.onrender.com${product.images.primary}`;
     }
     if (product?.images?.gallery?.[0]) {
-      return `https://cars-kart.onrender.com${product.images.gallery[0]}`;
+      return `https://carskart-backend.onrender.com${product.images.gallery[0]}`;
     }
     return 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=500&h=300&fit=crop';
   };
