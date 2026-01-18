@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+// API Base URL - works in both development and production
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://carskart-backend.onrender.com';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
@@ -122,8 +125,8 @@ const LoginPage = () => {
     try {
       let res;
       if (isLogin) {
-        // LOGIN - Use /api to trigger Vite proxy
-        res = await axios.post("/api/auth/login", {
+        // LOGIN - Use full URL for production compatibility
+        res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
           email,
           password,
         });
@@ -149,8 +152,8 @@ const LoginPage = () => {
           navigate("/pricing");
         }
       } else {
-        // SIGNUP - Use /api to trigger Vite proxy
-        res = await axios.post("/api/auth/signup", {
+        // SIGNUP - Use full URL for production compatibility
+        res = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
           name,
           email,
           phone,

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// ✅ Make sure this is the EXACT URL
 const API_BASE_URL = "https://carskart-backend.onrender.com";
 
 console.log("🔗 API Base URL:", API_BASE_URL);
@@ -9,7 +10,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: false, // ⚠️ Important: false when CORS origin is '*'
 });
 
 // Helper function to safely get token
@@ -52,6 +53,8 @@ const clearAuthData = () => {
 // Attach token automatically to all requests
 api.interceptors.request.use(
   (config) => {
+    console.log("📤 Making request to:", config.baseURL + config.url);
+    
     const token = getToken();
     
     // Check if token exists and is not expired
@@ -70,14 +73,20 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error("❌ Request error:", error);
     return Promise.reject(error);
   }
 );
 
 // Handle response errors globally
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("✅ Response received:", response.status);
+    return response;
+  },
   (error) => {
+    console.error("❌ Response error:", error.message);
+    
     if (error.response?.status === 401) {
       console.warn("⚠️ 401 Unauthorized - Clearing auth data");
       clearAuthData();
@@ -92,4 +101,4 @@ api.interceptors.response.use(
 );
 
 export default api;
-export { clearAuthData, isTokenExpired };
+export { clearAuthData, isTokenExpired, API_BASE_URL };
