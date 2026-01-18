@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Host = require('../models/Host');
 
 const JWT_SECRET = process.env.JWT_SECRET;
+// Match frontend session duration
+const TOKEN_EXPIRY = '3h'; // Changed from '7d' to '3h'
 
 // Utility: Generate JWT Token
 const generateToken = (user) => {
@@ -14,7 +16,7 @@ const generateToken = (user) => {
       isHost: user.isHost || false,
     },
     JWT_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: TOKEN_EXPIRY }
   );
 };
 
@@ -22,6 +24,12 @@ const generateToken = (user) => {
 exports.signup = async (req, res) => {
   try {
     const { name, firstName, lastName, email, password, phone } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
 
     const userData = {
       email,
@@ -51,6 +59,7 @@ exports.signup = async (req, res) => {
 
     res.status(201).json({
       token,
+      expiresIn: TOKEN_EXPIRY, // Send expiry info to frontend
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -71,10 +80,10 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'User not found' });
+    if (!user) return res.status(400).json({ message: 'Invalid email or password' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Invalid password' });
+    if (!isMatch) return res.status(401).json({ message: 'Invalid email or password' });
 
     const hostProfile = await Host.findOne({ user: user._id });
     const verifiedIsHost = user.role === 'host' && !!hostProfile;
@@ -89,6 +98,7 @@ exports.login = async (req, res) => {
 
     res.status(200).json({
       token,
+      expiresIn: TOKEN_EXPIRY, // Send expiry info to frontend
       user: {
         id: user._id,
         name: userName,
@@ -145,6 +155,10 @@ exports.getMe = async (req, res) => {
 exports.refreshToken = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const hostProfile = await Host.findOne({ user: req.user._id });
     const verifiedIsHost = user.role === 'host' && !!hostProfile;
 
@@ -155,11 +169,12 @@ exports.refreshToken = async (req, res) => {
         isHost: verifiedIsHost,
       },
       JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: TOKEN_EXPIRY }
     );
 
     res.status(200).json({
       token: newToken,
+      expiresIn: TOKEN_EXPIRY,
       user: {
         id: user._id,
         role: user.role,
@@ -169,5 +184,16 @@ exports.refreshToken = async (req, res) => {
   } catch (error) {
     console.error('❌ Refresh Token Error:', error);
     res.status(500).json({ message: 'Token refresh failed' });
+  }
+};
+
+// ✅ Logout Controller (Optional - for server-side cleanup)
+exports.logout = async (req, res) => {
+  try {
+    // You could implement token blacklisting here if needed
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('❌ Logout Error:', error);
+    res.status(500).json({ message: 'Logout failed' });
   }
 };
